@@ -1,0 +1,14 @@
+type Operator {
+  id: ID!
+  username: String!
+  password: String!
+}
+
+type Query {
+  operators: [Operator!]!
+  operator(id: ID!): Operator
+}
+
+type Mutation {
+  createOperator(username: String!, password: String!): Operator
+}
