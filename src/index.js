@@ -1,17 +1,58 @@
 const { GraphQLServer } = require("graphql-yoga");
 const path = require("path");
-const resolvers = require("./resolvers/operatorResolvers");
+const resolvers = require("./resolvers/index");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://mongo:27017/docker-node-mongo", { useNewUrlParser: true })
+  .connect("mongodb://mongo:27017/node", { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
+// Authenticate user
+const isLoggedIn = async (resolve, parent, args, ctx, info) => {
+  const permit = ctx.request.get("Authorization");
+
+  if (!permit) {
+    throw new Error(`Unauthorized!`);
+  }
+
+  const token = permit.split(" ")[1];
+
+  if (!token || token === "") {
+    throw new Error(`Unauthorized!`);
+  }
+
+  let decodedToken;
+
+  try {
+    decodedToken = jwt.verify(token, "omaewamoushindeirunaniiii");
+  } catch (err) {
+    throw new Error(err);
+  }
+
+  if (!decodedToken) {
+    throw new Error(`Unauthorized!`);
+  }
+  console.log("decodedToken", decodedToken);
+
+  return resolve();
+};
+
+// Permissions object
+const permissions = {
+  Mutation: {
+    createOperator: isLoggedIn,
+  },
+};
+
+// Creates server
 const server = new GraphQLServer({
   typeDefs: path.resolve(__dirname, "schema.graphql"),
   resolvers,
+  context: (req) => ({ ...req }),
+  middlewares: [permissions],
 });
 
 server.start();

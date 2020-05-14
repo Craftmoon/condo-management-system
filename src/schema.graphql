@@ -4,9 +4,16 @@ type Operator {
   password: String!
 }
 
+type AuthData {
+  operatorId: ID!
+  token: String!
+  tokenExpiration: Int!
+}
+
 type Query {
   operators: [Operator!]!
   operator(id: ID!): Operator
+  login(username: String!, password: String!): AuthData!
 }
 
 type Mutation {

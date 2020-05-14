@@ -1,6 +1,5 @@
 const mongoose = require("mongoose"),
-  Schema = mongoose.Schema,
-  bcrypt = require("bcryptjs");
+  Schema = mongoose.Schema;
 
 const OperatorSchema = new Schema({
   username: {
@@ -14,13 +13,6 @@ const OperatorSchema = new Schema({
     type: String,
     required: true,
   },
-});
-
-OperatorSchema.pre("save", async function (next) {
-  const hash = await bcrypt.hash(this.password, 10);
-  this.password = hash;
-
-  next();
 });
 
 module.exports = mongoose.model("Operator", OperatorSchema);
