@@ -15,6 +15,12 @@ type Tenant {
   representative: Boolean!
 }
 
+type Apartment {
+  id: ID!
+  block: String!
+  tenantId: String!
+}
+
 type AuthData {
   operatorId: ID!
   token: String!
@@ -30,9 +36,14 @@ type Query {
   tenants: [Tenant!]!
   tenant(id: ID!): Tenant
   tenantByApartment(apartmentNumber: String!): [Tenant!]!
+
+  apartments: [Apartment!]!
+  apartment(id: ID!): Apartment
 }
 
 type Mutation {
+  createOperator(username: String!, password: String!): Operator
+
   createTenant(
     name: String!
     email: String!
@@ -42,7 +53,6 @@ type Mutation {
     apartmentNumber: String!
     representative: Boolean!
   ): Tenant
-  createOperator(username: String!, password: String!): Operator
   deleteTenant(id: ID!): Tenant
   updateTenant(
     id: ID!
@@ -54,4 +64,8 @@ type Mutation {
     apartmentNumber: String!
     representative: Boolean!
   ): Tenant
+
+  createApartment(block: String!, tenantId: String!): Apartment
+  deleteApartment(id: ID!): Apartment
+  updateApartment(id: ID!, block: String!, tenantId: String!): Apartment
 }
