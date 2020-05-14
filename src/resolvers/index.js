@@ -1,7 +1,9 @@
 const operatorResolver = require("./operator");
+const tenantResolver = require("./tenant");
 
 const rootResolver = {
-  ...operatorResolver,
+  Query: { ...operatorResolver.Query, ...tenantResolver.Query },
+  Mutation: { ...operatorResolver.Mutation, ...tenantResolver.Mutation },
 };
 
 module.exports = rootResolver;

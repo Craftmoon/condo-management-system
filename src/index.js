@@ -15,13 +15,13 @@ const isLoggedIn = async (resolve, parent, args, ctx, info) => {
   const permit = ctx.request.get("Authorization");
 
   if (!permit) {
-    throw new Error(`Unauthorized!`);
+    throw new Error("Unauthorized!");
   }
 
   const token = permit.split(" ")[1];
 
   if (!token || token === "") {
-    throw new Error(`Unauthorized!`);
+    throw new Error("Unauthorized!");
   }
 
   let decodedToken;
@@ -33,19 +33,14 @@ const isLoggedIn = async (resolve, parent, args, ctx, info) => {
   }
 
   if (!decodedToken) {
-    throw new Error(`Unauthorized!`);
+    throw new Error("Unauthorized!");
   }
-  console.log("decodedToken", decodedToken);
 
   return resolve();
 };
 
 // Permissions object
-const permissions = {
-  Mutation: {
-    createOperator: isLoggedIn,
-  },
-};
+const permissions = {};
 
 // Creates server
 const server = new GraphQLServer({

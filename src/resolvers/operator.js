@@ -8,7 +8,6 @@ module.exports = {
     operator: (_, { id }) => Operator.findById(id),
     login: async (_, { username, password }) => {
       const operator = await Operator.findOne({ username });
-      console.log(operator);
       if (!operator) {
         throw new Error("Operator does not exist");
       }
@@ -32,22 +31,14 @@ module.exports = {
 
   Mutation: {
     createOperator: async (_, { username, password }, req) => {
-      try {
-        const existingUser = await Operator.findOne({ username: username });
-        if (existingUser) {
-          throw new Error("User already exists.");
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-        const operator = new Operator({
-          username: username,
-          password: hashedPassword,
-        });
+      const operator = new Operator({
+        username: username,
+        password: hashedPassword,
+      });
 
-        return await operator.save();
-      } catch (err) {
-        throw err;
-      }
+      return await operator.save();
     },
   },
 };
