@@ -4,8 +4,12 @@ module.exports = {
   Query: {
     tenants: () => Tenant.find(),
     tenant: (_, { id }) => Tenant.findById(id),
+
     tenantByApartment: (_, { apartmentNumber }) =>
       Tenant.find({ apartmentNumber: apartmentNumber }),
+
+    tenantByAny: (_, { searchString }) =>
+      Tenant.find({ $text: { $search: searchString } }),
   },
 
   Mutation: {
@@ -15,13 +19,13 @@ module.exports = {
       req
     ) => {
       const tenant = new Tenant({
-        name: name,
-        email: email,
-        dateOfBirth: dateOfBirth,
-        phone: phone,
-        cpf: cpf,
-        apartmentNumber: apartmentNumber,
-        representative: representative,
+        name,
+        email,
+        dateOfBirth,
+        phone,
+        cpf,
+        apartmentNumber,
+        representative,
       });
 
       return await tenant.save();
@@ -44,13 +48,13 @@ module.exports = {
       req
     ) => {
       return await Tenant.findByIdAndUpdate(id, {
-        name: name,
-        email: email,
-        dateOfBirth: dateOfBirth,
-        phone: phone,
-        cpf: cpf,
-        apartmentNumber: apartmentNumber,
-        representative: representative,
+        name,
+        email,
+        dateOfBirth,
+        phone,
+        cpf,
+        apartmentNumber,
+        representative,
       });
     },
   },

@@ -34,8 +34,8 @@ module.exports = {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const operator = new Operator({
-        username: username,
-        password: hashedPassword,
+        username,
+        password,
       });
 
       return await operator.save();

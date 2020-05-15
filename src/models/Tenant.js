@@ -37,4 +37,6 @@ const TenantSchema = new Schema({
   },
 });
 
+TenantSchema.index({ "$**": "text" });
+
 module.exports = mongoose.model("Tenant", TenantSchema);

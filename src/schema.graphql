@@ -36,6 +36,7 @@ type Query {
   tenants: [Tenant!]!
   tenant(id: ID!): Tenant
   tenantByApartment(apartmentNumber: String!): [Tenant!]!
+  tenantByAny(searchString: String!): [Tenant!]!
 
   apartments: [Apartment!]!
   apartment(id: ID!): Apartment
