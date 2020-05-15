@@ -11,14 +11,16 @@ type Tenant {
   dateOfBirth: String!
   phone: String!
   cpf: String!
-  apartmentNumber: String!
+  apartmentNumbers: [String!]!
+  apartmentIds: [String!]!
   representative: Boolean!
 }
 
 type Apartment {
   id: ID!
+  number: String!
   block: String!
-  tenantId: String!
+  tenantIds: [String]!
 }
 
 type AuthData {
@@ -35,7 +37,7 @@ type Query {
 
   tenants: [Tenant!]!
   tenant(id: ID!): Tenant
-  tenantByApartment(apartmentNumber: String!): [Tenant!]!
+  tenantByApartment(apartmentNumbers: String!): [Tenant!]!
   tenantByAny(searchString: String!): [Tenant!]!
 
   apartments: [Apartment!]!
@@ -51,7 +53,8 @@ type Mutation {
     dateOfBirth: String!
     phone: String!
     cpf: String!
-    apartmentNumber: String!
+    apartmentNumbers: [String]!
+    apartmentIds: [String!]!
     representative: Boolean!
   ): Tenant
   deleteTenant(id: ID!): Tenant
@@ -62,11 +65,21 @@ type Mutation {
     dateOfBirth: String!
     phone: String!
     cpf: String!
-    apartmentNumber: String!
+    apartmentNumbers: [String!]!
+    apartmentIds: [String!]!
     representative: Boolean!
   ): Tenant
 
-  createApartment(block: String!, tenantId: String!): Apartment
+  createApartment(
+    number: String!
+    block: String!
+    tenantIds: [String]!
+  ): Apartment
   deleteApartment(id: ID!): Apartment
-  updateApartment(id: ID!, block: String!, tenantId: String!): Apartment
+  updateApartment(
+    id: ID!
+    number: String!
+    block: String!
+    tenantIds: [String]!
+  ): Apartment
 }

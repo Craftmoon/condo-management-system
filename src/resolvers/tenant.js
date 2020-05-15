@@ -15,7 +15,16 @@ module.exports = {
   Mutation: {
     createTenant: async (
       _,
-      { name, email, dateOfBirth, phone, cpf, apartmentNumber, representative },
+      {
+        name,
+        email,
+        dateOfBirth,
+        phone,
+        cpf,
+        apartmentNumber,
+        apartmentId,
+        representative,
+      },
       req
     ) => {
       const tenant = new Tenant({
@@ -25,6 +34,7 @@ module.exports = {
         phone,
         cpf,
         apartmentNumber,
+        apartmentId,
         representative,
       });
 
@@ -43,6 +53,7 @@ module.exports = {
         phone,
         cpf,
         apartmentNumber,
+        apartmentId,
         representative,
       },
       req
@@ -54,6 +65,7 @@ module.exports = {
         phone,
         cpf,
         apartmentNumber,
+        apartmentId,
         representative,
       });
     },

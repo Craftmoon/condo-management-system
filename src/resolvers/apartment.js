@@ -7,10 +7,11 @@ module.exports = {
   },
 
   Mutation: {
-    createApartment: async (_, { block, tenantId }, req) => {
+    createApartment: async (_, { number, block, tenantIds }, req) => {
       const apartment = new Apartment({
+        number,
         block,
-        tenantId,
+        tenantIds,
       });
 
       return await apartment.save();
@@ -18,10 +19,11 @@ module.exports = {
     deleteApartment: async (_, { id }, req) => {
       return await Apartment.findByIdAndRemove(id);
     },
-    updateApartment: async (_, { id, block, tenantId }, req) => {
+    updateApartment: async (_, { id, number, block, tenantIds }, req) => {
       return await Apartment.findByIdAndUpdate(id, {
+        number,
         block,
-        tenantId,
+        tenantIds,
       });
     },
   },
