@@ -5,7 +5,6 @@ const ApartmentSchema = new Schema({
   number: {
     type: String,
     required: [true, "can't be blank"],
-    unique: true,
   },
   block: {
     type: String,
@@ -15,6 +14,9 @@ const ApartmentSchema = new Schema({
   },
   tenantIds: {
     type: [String],
+  },
+  representativeTenantId: {
+    type: String,
   },
 });
 

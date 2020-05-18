@@ -35,10 +35,6 @@ const TenantSchema = new Schema({
     type: [String],
     required: [true, "can't be blank"],
   },
-  representative: {
-    type: Boolean,
-    required: [true, "can't be blank"],
-  },
 });
 
 TenantSchema.index({ "$**": "text" });

@@ -1,4 +1,5 @@
-const Apartment = require("../models/Apartment");
+const Apartment = require("../models/Apartment"),
+  apartmentService = require("../service/apartment");
 
 module.exports = {
   Query: {
@@ -7,23 +8,55 @@ module.exports = {
   },
 
   Mutation: {
-    createApartment: async (_, { number, block, tenantIds }, req) => {
-      const apartment = new Apartment({
+    createApartment: async (
+      _,
+      { number, block, tenantIds, representativeTenantId },
+      req
+    ) => {
+      // Verifica regras de negócio
+      await Promise.all([
+        apartmentService.verifyIsApartmentNumberBlockRepeated(number, block),
+        // apartmentService.verifyIsRepresentativePresent(
+        //   tenantIds,
+        //   representativeTenantId
+        // ),
+      ]);
+      await apartmentService.registerApartment(
         number,
         block,
         tenantIds,
-      });
-
-      return await apartment.save();
+        representativeTenantId
+      );
     },
     deleteApartment: async (_, { id }, req) => {
-      return await Apartment.findByIdAndRemove(id);
+      await apartmentService.verifyTenantExistenceEligibility(id);
+
+      return await Apartment.findByIdAndDelete(id);
     },
-    updateApartment: async (_, { id, number, block, tenantIds }, req) => {
+    updateApartment: async (
+      _,
+      { id, number, block, tenantIds, representativeTenantId },
+      req
+    ) => {
+      // Verifica regras de negócio
+      await Promise.all([
+        apartmentService.verifyIsApartmentNumberBlockRepeated(
+          number,
+          block,
+          id
+        ),
+        // apartmentService.verifyIsRepresentativePresent(
+        //   tenantIds,
+        //   representativeTenantId
+        // ),
+      ]);
+      console.log("passou nas regras de negócio");
+
       return await Apartment.findByIdAndUpdate(id, {
         number,
         block,
         tenantIds,
+        representativeTenantId,
       });
     },
   },

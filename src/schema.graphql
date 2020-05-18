@@ -13,14 +13,14 @@ type Tenant {
   cpf: String!
   apartmentNumbers: [String!]!
   apartmentIds: [String!]!
-  representative: Boolean!
 }
 
 type Apartment {
   id: ID!
   number: String!
   block: String!
-  tenantIds: [String]!
+  tenantIds: [String]
+  representativeTenantId: String
 }
 
 type AuthData {
@@ -55,7 +55,6 @@ type Mutation {
     cpf: String!
     apartmentNumbers: [String]!
     apartmentIds: [String!]!
-    representative: Boolean!
   ): Tenant
   deleteTenant(id: ID!): Tenant
   updateTenant(
@@ -67,19 +66,20 @@ type Mutation {
     cpf: String!
     apartmentNumbers: [String!]!
     apartmentIds: [String!]!
-    representative: Boolean!
   ): Tenant
 
   createApartment(
     number: String!
     block: String!
-    tenantIds: [String]!
+    tenantIds: [String]
+    representativeTenantId: String
   ): Apartment
   deleteApartment(id: ID!): Apartment
   updateApartment(
     id: ID!
     number: String!
     block: String!
-    tenantIds: [String]!
+    tenantIds: [String]
+    representativeTenantId: String
   ): Apartment
 }

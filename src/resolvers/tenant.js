@@ -1,4 +1,5 @@
-const Tenant = require("../models/Tenant");
+const Tenant = require("../models/Tenant"),
+  tenantService = require("../service/tenant");
 
 module.exports = {
   Query: {
@@ -15,30 +16,18 @@ module.exports = {
   Mutation: {
     createTenant: async (
       _,
-      {
-        name,
-        email,
-        dateOfBirth,
-        phone,
-        cpf,
-        apartmentNumber,
-        apartmentId,
-        representative,
-      },
+      { name, email, dateOfBirth, phone, cpf, apartmentNumbers, apartmentIds },
       req
     ) => {
-      const tenant = new Tenant({
+      return await tenantService.tenantRegister(
         name,
         email,
         dateOfBirth,
         phone,
         cpf,
-        apartmentNumber,
-        apartmentId,
-        representative,
-      });
-
-      return await tenant.save();
+        apartmentNumbers,
+        apartmentIds
+      );
     },
     deleteTenant: async (_, { id }, req) => {
       return await Tenant.findByIdAndRemove(id);
@@ -52,9 +41,8 @@ module.exports = {
         dateOfBirth,
         phone,
         cpf,
-        apartmentNumber,
-        apartmentId,
-        representative,
+        apartmentNumbers,
+        apartmentIds,
       },
       req
     ) => {
@@ -64,9 +52,8 @@ module.exports = {
         dateOfBirth,
         phone,
         cpf,
-        apartmentNumber,
-        apartmentId,
-        representative,
+        apartmentNumbers,
+        apartmentIds,
       });
     },
   },
