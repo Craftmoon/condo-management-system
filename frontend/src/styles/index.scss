@@ -1,0 +1,41 @@
+@import "bulma";
+
+@import "../../node_modules/bulma/sass/utilities/_all.sass";
+
+// the import below of everything from bulma is temporary
+@import "../../node_modules/bulma/bulma.sass";
+
+@import "./variables";
+@import "./header";
+@import "./home";
+@import "./loginSignUp";
+@import "./sidebar";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+a {
+  &:link {
+    color: $darkGray;
+    text-decoration: none;
+  }
+  &:visited {
+    color: $darkGray;
+    text-decoration: none;
+  }
+  &:hover {
+    color: $darkGray;
+    text-decoration: none;
+  }
+  &:active {
+    color: $darkGray;
+    text-decoration: none;
+  }
+}
+
+.is-success.is-light {
+  background-color: #c3f1d4 !important;
+}

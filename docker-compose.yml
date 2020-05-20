@@ -1,19 +1,45 @@
-version: "3"
+version: "3.7"
 
 services:
-  app:
-    container_name: node
-    restart: always
-    build: .
+  react:
+    container_name: frontend
+    build: ./frontend
     command: npm start
     ports:
-      - "3000:4000"
+      - "3000:3000"
     volumes:
-      - .:/usr/app
-    links:
+      - ./frontend:/frontend
+    networks:
+      - frontend
+    depends_on:
+      - node
+    tty: true
+  node:
+    container_name: node
+    build: ./backend
+    command: npm start
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/backend
+    networks:
+      - frontend
+      - backend
+    depends_on:
       - mongo
   mongo:
     container_name: mongo
     image: mongo
+    networks:
+      - backend
     ports:
       - "27017:27017"
+    restart: on-failure
+
+networks:
+  frontend:
+    name: "front"
+    driver: "bridge"
+  backend:
+    name: "back"
+    driver: "bridge"
