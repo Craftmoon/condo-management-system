@@ -15,13 +15,13 @@ const isLoggedIn = async (resolve, parent, args, ctx, info) => {
   const permit = ctx.request.get("Authorization");
 
   if (!permit) {
-    throw new Error("Unauthorized!");
+    throw new Error("Unauthorized.");
   }
 
   const token = permit.split(" ")[1];
 
   if (!token || token === "") {
-    throw new Error("Unauthorized!");
+    throw new Error("Unauthorized.");
   }
 
   let decodedToken;
@@ -33,14 +33,33 @@ const isLoggedIn = async (resolve, parent, args, ctx, info) => {
   }
 
   if (!decodedToken) {
-    throw new Error("Unauthorized!");
+    throw new Error("Unauthorized.");
   }
 
   return resolve();
 };
 
 // Permissions object
-const permissions = {};
+const permissions = {
+  Query: {
+    apartments: isLoggedIn,
+    apartment: isLoggedIn,
+    tenants: isLoggedIn,
+    tenant: isLoggedIn,
+    tenantByApartment: isLoggedIn,
+    tenantByAny: isLoggedIn,
+    operators: isLoggedIn,
+    operator: isLoggedIn,
+  },
+  Mutation: {
+    createApartment: isLoggedIn,
+    updateApartment: isLoggedIn,
+    deleteApartment: isLoggedIn,
+    createTenant: isLoggedIn,
+    updateTenant: isLoggedIn,
+    deleteTenant: isLoggedIn,
+  },
+};
 
 // Creates server
 const server = new GraphQLServer({
