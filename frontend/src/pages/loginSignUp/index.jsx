@@ -6,10 +6,6 @@ const LoginSignUp = () => {
   const [password, setPassword] = useState("");
   const [isSignUpPage, setisSignUpPage] = useState(false);
 
-  const consoleLogZada = () => {
-    console.log(username, password);
-  };
-
   const submitHandler = (event) => {
     event.preventDefault();
 
@@ -130,6 +126,7 @@ const LoginSignUp = () => {
                 <div className="control">
                   {isSignUpPage === false ? (
                     <button
+                      type="button"
                       className="button is-light"
                       onClick={() => {
                         setisSignUpPage(true);
@@ -139,6 +136,7 @@ const LoginSignUp = () => {
                     </button>
                   ) : (
                     <button
+                      type="button"
                       className="button is-light"
                       onClick={() => {
                         setisSignUpPage(false);
