@@ -32,6 +32,7 @@ module.exports = {
   Mutation: {
     createOperator: async (_, { username, password }, req) => {
       const hashedPassword = await bcrypt.hash(password, 10);
+      password = hashedPassword;
 
       const operator = new Operator({
         username,
