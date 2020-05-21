@@ -1,16 +1,14 @@
 import React, { useState, Fragment } from "react";
 import { ReactComponent as KiperLogo } from "../../assets/images/logo_kiper.svg";
+import { useForm } from "react-hook-form";
+import ErrorMessage from "../../utils/ErrorMessage";
+import notify from "../../utils/toast";
 
 const LoginSignUp = ({ storeToken }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [isSignUpPage, setisSignUpPage] = useState(false);
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-
-    // Fazer validações
-
+  const { register, handleSubmit, watch, errors, reset } = useForm();
+  const onSubmit = ({ username, password }) => {
     let requestBody = {
       query: `
         query{
@@ -65,7 +63,7 @@ const LoginSignUp = ({ storeToken }) => {
             {isSignUpPage === false ? (
               <Fragment>
                 <KiperLogo></KiperLogo>
-                <p>Gestão de Condominios</p>
+                <p>Gestão de Condominio</p>
               </Fragment>
             ) : (
               <p>Cadastro de Operador</p>
@@ -73,19 +71,25 @@ const LoginSignUp = ({ storeToken }) => {
           </div>
           <form
             className="form-horizontal signup-form"
-            onSubmit={submitHandler}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <fieldset>
               <div className="field">
                 <div className="form-control control has-icons-left has-icons-right">
                   <input
-                    className="input" // is-success"
+                    className={"input" + (errors.username ? " is-danger" : "")}
                     type="text"
                     placeholder="Usuário"
                     id="username"
-                    onChange={(e) => setUsername(e.target.value)}
-                    // value=""
+                    name="username"
+                    ref={register({
+                      required: true,
+                      maxLength: 15,
+                      pattern: /^[A-Za-z0-9 ]+$/,
+                    })}
                   />
+                  <ErrorMessage error={errors.username} />
+
                   <span className="icon is-small is-left">
                     <i className="fas fa-user"></i>
                   </span>
@@ -95,12 +99,17 @@ const LoginSignUp = ({ storeToken }) => {
               <div className="field">
                 <div className="form-control control has-icons-left">
                   <input
-                    className="input"
+                    className={"input" + (errors.password ? " is-danger" : "")}
                     type="password"
                     placeholder="Senha"
                     id="password"
-                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    ref={register({
+                      required: true,
+                    })}
                   />
+                  <ErrorMessage error={errors.password} />
+
                   <span className="icon is-small is-left">
                     <i className="fa fa-lock"></i>
                   </span>
@@ -110,13 +119,17 @@ const LoginSignUp = ({ storeToken }) => {
               <div className="field is-grouped">
                 <div className="control">
                   {isSignUpPage === false ? (
-                    <button className="button is-success is-light">
+                    <button
+                      className="button is-success is-light"
+                      type="submit"
+                    >
                       Entrar
                     </button>
                   ) : (
                     <button
                       className="button is-success is-light"
                       to="/login"
+                      type="submit"
                       onClick={() => setisSignUpPage(true)}
                     >
                       Confirmar cadastro

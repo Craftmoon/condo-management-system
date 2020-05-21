@@ -1,26 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import ErrorMessage from "../../../utils/ErrorMessage";
-
-toast.configure();
+import notify from "../../../utils/toast";
 
 const RegisterApartment = ({ token }) => {
-  const toastConfig = {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-  };
-
-  const notify = (toastString, type) => {
-    if (type === "error") toast.error(toastString, toastConfig);
-    else toast.success(toastString, toastConfig);
-  };
-
   const { register, handleSubmit, watch, errors, reset } = useForm();
   const onSubmit = ({ apNumber, apBlock }) => {
     const requestBody = {
@@ -87,9 +70,6 @@ const RegisterApartment = ({ token }) => {
                 })}
               />
               <ErrorMessage error={errors.apNumber} />
-              {/* {errors.apNumber && (
-                <p className="help is-danger">Este campo é obrigatório.</p>
-              )} */}
             </div>
           </div>
 
@@ -106,9 +86,7 @@ const RegisterApartment = ({ token }) => {
                   pattern: /^[A-Za-z0-9 ]+$/,
                 })}
               />
-              {errors.apBlock && (
-                <p className="help is-danger">Este campo é obrigatório.</p>
-              )}
+              <ErrorMessage error={errors.apBlock} />
             </div>
           </div>
 
