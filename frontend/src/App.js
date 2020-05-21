@@ -9,6 +9,7 @@ import Navbar from "./components/navbar/navbar.jsx";
 import LoginSignUp from "./pages/loginSignUp/loginSignUp.jsx";
 import LandingPage from "./pages/landingPage/landingPage.jsx";
 import RegisterAparment from "./pages/apartment/register/apRegister.jsx";
+import SearchApartment from "./pages/apartment/search/apSearch.jsx";
 import Home from "./pages/home/home.jsx";
 
 function App() {
@@ -52,6 +53,12 @@ function App() {
             <Route
               path="/apartment/register"
               render={() => <RegisterAparment token={token} />}
+            />
+          )}
+          {token && (
+            <Route
+              path="/apartment/search"
+              render={() => <SearchApartment token={token} />}
             />
           )}
           {!token && <Redirect path="/" to="/" />}

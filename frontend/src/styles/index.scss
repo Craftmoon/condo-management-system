@@ -10,6 +10,7 @@
 @import "./navbar";
 @import "./loginSignUp";
 @import "./sidebar";
+@import "./cards";
 
 body {
   margin: 0;
@@ -22,14 +23,17 @@ a {
     color: $darkGray;
     text-decoration: none;
   }
+
   &:visited {
     color: $darkGray;
     text-decoration: none;
   }
+
   &:hover {
     color: $darkGray;
     text-decoration: none;
   }
+
   &:active {
     color: $darkGray;
     text-decoration: none;

@@ -1,0 +1,27 @@
+.apartment-card {
+  margin: 10px 10px 10px 0px;
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  border: 1px solid $superLightGray;
+  flex-direction: row;
+
+  &.box {
+    padding: 10px 10px 3px 10px;
+  }
+
+  .card-icon {
+    display: flex;
+    padding-top: 8px;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
