@@ -76,6 +76,7 @@ type Mutation {
     representativeTenantId: String
   ): Apartment
   deleteApartment(id: ID!): Apartment
+  deleteApartmentByNumberBlock(number: String!, block: String!): Apartment
   updateApartment(
     id: ID!
     number: String!

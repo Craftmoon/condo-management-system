@@ -35,6 +35,15 @@ module.exports = {
 
       return await Apartment.findByIdAndDelete(id);
     },
+    deleteApartmentByNumberBlock: async (_, { number, block }, req) => {
+      const ap = await Apartment.findOne({ number, block });
+
+      if (ap === null) throw new Error("Apartamento não encontrado.");
+
+      await apartmentService.verifyTenantExistenceEligibility(ap.id);
+
+      return await Apartment.findByIdAndDelete(ap.id);
+    },
     updateApartment: async (
       _,
       { id, number, block, tenantIds, representativeTenantId },
@@ -52,7 +61,6 @@ module.exports = {
         //   representativeTenantId
         // ),
       ]);
-      console.log("passou nas regras de negócio");
 
       return await Apartment.findByIdAndUpdate(id, {
         number,

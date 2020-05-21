@@ -10,6 +10,7 @@ import LoginSignUp from "./pages/loginSignUp/loginSignUp.jsx";
 import LandingPage from "./pages/landingPage/landingPage.jsx";
 import RegisterAparment from "./pages/apartment/register/apRegister.jsx";
 import SearchApartment from "./pages/apartment/search/apSearch.jsx";
+import DeleteApartment from "./pages/apartment/delete/apDelete.jsx";
 import Home from "./pages/home/home.jsx";
 
 function App() {
@@ -59,6 +60,12 @@ function App() {
             <Route
               path="/apartment/search"
               render={() => <SearchApartment token={token} />}
+            />
+          )}
+          {token && (
+            <Route
+              path="/apartment/delete"
+              render={() => <DeleteApartment token={token} />}
             />
           )}
           {!token && <Redirect path="/" to="/" />}
