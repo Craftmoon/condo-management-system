@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
 import { ReactComponent as KiperLogo } from "../../assets/images/logo_kiper.svg";
 
-const LoginSignUp = () => {
+const LoginSignUp = ({ storeToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUpPage, setisSignUpPage] = useState(false);
@@ -9,7 +9,7 @@ const LoginSignUp = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    // Valida o username/password
+    // Fazer validações
 
     let requestBody = {
       query: `
@@ -50,7 +50,7 @@ const LoginSignUp = () => {
         return res.json();
       })
       .then((resData) => {
-        console.log(resData);
+        storeToken(resData.data.login.token, resData.data.login.operatorId);
       })
       .catch((err) => {
         console.log(err);

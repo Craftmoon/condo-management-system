@@ -4,10 +4,10 @@
 
 // the import below of everything from bulma is temporary
 @import "../../node_modules/bulma/bulma.sass";
+@import "../../node_modules/bulma-steps-component/bulma-steps.sass";
 
 @import "./variables";
-@import "./header";
-@import "./home";
+@import "./navbar";
 @import "./loginSignUp";
 @import "./sidebar";
 
@@ -38,4 +38,13 @@ a {
 
 .is-success.is-light {
   background-color: #c3f1d4 !important;
+}
+
+.page-panel {
+  height: 90vh;
+  background-color: $darkerWhite;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
