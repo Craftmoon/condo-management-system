@@ -21,11 +21,11 @@ module.exports = {
         { operatorId: operator.id, username: operator.username },
         "omaewamoushindeirunaniiii",
         {
-          expiresIn: "1h",
+          expiresIn: "6h",
         }
       );
 
-      return { operatorId: operator.id, token: token, tokenExpiration: 1 };
+      return { operatorId: operator.id, token: token, tokenExpiration: 6 };
     },
   },
 

@@ -21,7 +21,7 @@ module.exports = {
         //   representativeTenantId
         // ),
       ]);
-      await apartmentService.registerApartment(
+      return await apartmentService.registerApartment(
         number,
         block,
         tenantIds,

@@ -49,7 +49,10 @@ function App() {
           {token && <Route path="/home" component={Home} />}
 
           {token && (
-            <Route path="/apartment/register" component={RegisterAparment} />
+            <Route
+              path="/apartment/register"
+              render={() => <RegisterAparment token={token} />}
+            />
           )}
           {!token && <Redirect path="/" to="/" />}
           {token && <Redirect path="/" to="/home" />}
