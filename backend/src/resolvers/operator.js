@@ -9,12 +9,12 @@ module.exports = {
     login: async (_, { username, password }) => {
       const operator = await Operator.findOne({ username });
       if (!operator) {
-        throw new Error("Operator does not exist");
+        throw new Error("Operador não cadastrado.");
       }
       const isEqual = await bcrypt.compare(password, operator.password);
 
       if (!isEqual) {
-        throw new Error("Password is incorrect!");
+        throw new Error("Senha incorreta.");
       }
 
       const token = jwt.sign(

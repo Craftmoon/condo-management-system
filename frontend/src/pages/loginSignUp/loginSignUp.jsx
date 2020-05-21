@@ -7,7 +7,7 @@ import notify from "../../utils/toast";
 const LoginSignUp = ({ storeToken }) => {
   const [isSignUpPage, setisSignUpPage] = useState(false);
 
-  const { register, handleSubmit, watch, errors, reset } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const onSubmit = ({ username, password }) => {
     let requestBody = {
       query: `
@@ -47,8 +47,9 @@ const LoginSignUp = ({ storeToken }) => {
         }
         return res.json();
       })
-      .then((resData) => {
-        storeToken(resData.data.login.token, resData.data.login.operatorId);
+      .then(({ data, errors }) => {
+        if (errors != undefined) notify(errors[0].message, "error");
+        else storeToken(data.login.token, data.login.operatorId);
       })
       .catch((err) => {
         console.log(err);
