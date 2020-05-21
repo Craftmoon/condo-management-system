@@ -5,6 +5,8 @@ module.exports = {
   Query: {
     apartments: () => Apartment.find(),
     apartment: (_, { id }) => Apartment.findById(id),
+    apartmentByNumberBlock: (_, { number, block }) =>
+      Apartment.findOne({ number, block }),
   },
 
   Mutation: {

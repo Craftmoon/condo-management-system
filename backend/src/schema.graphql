@@ -42,6 +42,7 @@ type Query {
 
   apartments: [Apartment!]!
   apartment(id: ID!): Apartment
+  apartmentByNumberBlock(number: String!, block: String!): Apartment
 }
 
 type Mutation {
