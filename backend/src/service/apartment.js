@@ -96,6 +96,8 @@ module.exports = {
     return apartment;
   },
   verifyTenantExistenceEligibility: async (apartmentId, newTenantIds) => {
+    //Verifica se o tenant ainda pode continuar cadastrado no sistema (se ele ainda mora em algum apartamento)
+
     // if (newTenantIds == null) return " significa que é delete";
 
     const apartment = await Apartment.findById(apartmentId);

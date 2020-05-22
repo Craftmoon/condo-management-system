@@ -27,10 +27,6 @@ const TenantSchema = new Schema({
     required: [true, "can't be blank"],
     unique: true,
   },
-  apartmentNumbers: {
-    type: [String],
-    required: [true, "can't be blank"],
-  },
   apartmentIds: {
     type: [String],
     required: [true, "can't be blank"],

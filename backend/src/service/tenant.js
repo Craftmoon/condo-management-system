@@ -8,7 +8,6 @@ module.exports = {
     dateOfBirth,
     phone,
     cpf,
-    apartmentNumbers,
     apartmentIds
   ) => {
     // Cadastra o morador e vincula ele com o(s) apartamento(s)
@@ -20,7 +19,6 @@ module.exports = {
       dateOfBirth,
       phone,
       cpf,
-      apartmentNumbers,
       apartmentIds,
     });
     await tenant.save();

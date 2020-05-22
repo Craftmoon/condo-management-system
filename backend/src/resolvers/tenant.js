@@ -6,8 +6,18 @@ module.exports = {
     tenants: () => Tenant.find(),
     tenant: (_, { id }) => Tenant.findById(id),
 
-    tenantByApartment: (_, { apartmentNumber }) =>
-      Tenant.find({ apartmentNumber: apartmentNumber }),
+    tenantByApartment: (_, { apartmentNumber, apartmentBlock }) => {
+      const ap = Apartment.findOne({ number, block });
+      if (ap === null || ap === undefined) return null;
+      if (ap.tenantIds.length === 0) return null;
+      if (ap.tenantIds.length > 0) {
+        let tenants = [];
+        for (let i = 0; i < ap.tenantIds.length; i++) {
+          tenants.push(Tenant.findById(ap.tenantIds[i]));
+        }
+        console.log("array tenants by apartment", tenants);
+      }
+    },
 
     tenantByAny: (_, { searchString }) =>
       Tenant.find({ $text: { $search: searchString } }),
@@ -16,7 +26,7 @@ module.exports = {
   Mutation: {
     createTenant: async (
       _,
-      { name, email, dateOfBirth, phone, cpf, apartmentNumbers, apartmentIds },
+      { name, email, dateOfBirth, phone, cpf, apartmentIds },
       req
     ) => {
       return await tenantService.tenantRegister(
@@ -25,7 +35,6 @@ module.exports = {
         dateOfBirth,
         phone,
         cpf,
-        apartmentNumbers,
         apartmentIds
       );
     },
@@ -34,16 +43,7 @@ module.exports = {
     },
     updateTenant: async (
       _,
-      {
-        id,
-        name,
-        email,
-        dateOfBirth,
-        phone,
-        cpf,
-        apartmentNumbers,
-        apartmentIds,
-      },
+      { id, name, email, dateOfBirth, phone, cpf, apartmentIds },
       req
     ) => {
       return await Tenant.findByIdAndUpdate(id, {
@@ -52,7 +52,6 @@ module.exports = {
         dateOfBirth,
         phone,
         cpf,
-        apartmentNumbers,
         apartmentIds,
       });
     },

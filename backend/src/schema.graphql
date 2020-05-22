@@ -11,7 +11,6 @@ type Tenant {
   dateOfBirth: String!
   phone: String!
   cpf: String!
-  apartmentNumbers: [String!]!
   apartmentIds: [String!]!
 }
 
@@ -37,8 +36,8 @@ type Query {
 
   tenants: [Tenant!]!
   tenant(id: ID!): Tenant
-  tenantByApartment(apartmentNumbers: String!): [Tenant!]!
   tenantByAny(searchString: String!): [Tenant!]!
+  tenantByApartment(apNumber: String!, apBlock: String!): [Tenant]
 
   apartments: [Apartment!]!
   apartment(id: ID!): Apartment
@@ -54,7 +53,6 @@ type Mutation {
     dateOfBirth: String!
     phone: String!
     cpf: String!
-    apartmentNumbers: [String]!
     apartmentIds: [String!]!
   ): Tenant
   deleteTenant(id: ID!): Tenant
@@ -65,7 +63,6 @@ type Mutation {
     dateOfBirth: String!
     phone: String!
     cpf: String!
-    apartmentNumbers: [String!]!
     apartmentIds: [String!]!
   ): Tenant
 
