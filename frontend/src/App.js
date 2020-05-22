@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+//import { useSelector, useDispatch } from "react-redux";
 
 //Components
 import Navbar from "./components/navbar/navbar.jsx";
@@ -12,6 +12,7 @@ import RegisterAparment from "./pages/apartment/register/apRegister.jsx";
 import SearchApartment from "./pages/apartment/search/apSearch.jsx";
 import DeleteApartment from "./pages/apartment/delete/apDelete.jsx";
 import Home from "./pages/home/home.jsx";
+import RegisterTenant from "./pages/tenant/register/tenantRegister.jsx";
 
 function App() {
   const storeToken = (token, operatorId) => {
@@ -66,6 +67,12 @@ function App() {
             <Route
               path="/apartment/delete"
               render={() => <DeleteApartment token={token} />}
+            />
+          )}
+          {token && (
+            <Route
+              path="/tenant/register"
+              render={() => <RegisterTenant token={token} />}
             />
           )}
           {!token && <Redirect path="/" to="/" />}

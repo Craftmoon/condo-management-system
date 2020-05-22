@@ -1,0 +1,10 @@
+.half-form-container {
+  display: flex;
+  > div {
+    width: 50%;
+    margin-bottom: 12px;
+  }
+  > div:first-child {
+    padding-right: 12px;
+  }
+}

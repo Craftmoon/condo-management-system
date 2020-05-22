@@ -1,0 +1,35 @@
+.Modal {
+  position: absolute;
+  top: 80px;
+  left: 200px;
+  right: 200px;
+  bottom: 80px;
+  background-color: $white;
+  border-radius: 5px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #0009;
+  z-index: 99 !important;
+}
+
+.modal-header {
+  background-color: #48c774;
+  padding: 20px;
+
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+  .title {
+    color: $white !important;
+  }
+}
+
+.modal-body {
+  padding: 20px;
+}
