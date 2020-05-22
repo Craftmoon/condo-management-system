@@ -6,12 +6,14 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Navbar from "./components/navbar/navbar.jsx";
 
 //Pages
+import Home from "./pages/home/home.jsx";
 import LoginSignUp from "./pages/loginSignUp/loginSignUp.jsx";
 import LandingPage from "./pages/landingPage/landingPage.jsx";
 import RegisterAparment from "./pages/apartment/register/apRegister.jsx";
 import SearchApartment from "./pages/apartment/search/apSearch.jsx";
 import DeleteApartment from "./pages/apartment/delete/apDelete.jsx";
-import Home from "./pages/home/home.jsx";
+import UpdateApartment from "./pages/apartment/update/apUpdate.jsx";
+
 import RegisterTenant from "./pages/tenant/register/tenantRegister.jsx";
 
 function App() {
@@ -61,6 +63,12 @@ function App() {
             <Route
               path="/apartment/search"
               render={() => <SearchApartment token={token} />}
+            />
+          )}
+          {token && (
+            <Route
+              path="/apartment/update"
+              render={() => <UpdateApartment token={token} />}
             />
           )}
           {token && (
