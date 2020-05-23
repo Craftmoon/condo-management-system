@@ -55,6 +55,50 @@ class TenantService {
         console.log("error", err);
       });
   };
+
+  tenantByAny = ({ searchString }) => {
+    const requestBody = {
+      query: `
+          query{
+            tenantByAny(searchString:"${searchString}"){
+                id
+                name
+                email
+                dateOfBirth
+                phone
+                cpf
+                apartmentIds
+            }
+          }
+        `,
+    };
+
+    return fetch("http://localhost:4000", fetchBody(requestBody))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
+
+  deleteByCpf = ({ tenantCpf }) => {
+    const requestBody = {
+      query: `
+          mutation{
+            deleteTenantByCpf(tenantCpf:"${tenantCpf}"){
+                id
+                name
+                apartmentIds
+            }
+          }
+        `,
+    };
+
+    return fetch("http://localhost:4000", fetchBody(requestBody))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
 }
 
 const instance = new TenantService();

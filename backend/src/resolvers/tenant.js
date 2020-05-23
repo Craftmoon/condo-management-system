@@ -43,6 +43,9 @@ module.exports = {
     deleteTenant: async (_, { id }, req) => {
       return await Tenant.findByIdAndRemove(id);
     },
+    deleteTenantByCpf: async (_, { tenantCpf }, req) => {
+      return await Tenant.findOneAndDelete({ cpf: tenantCpf });
+    },
     updateTenant: async (
       _,
       { id, name, email, dateOfBirth, phone, cpf, apartmentIds },

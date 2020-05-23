@@ -7,13 +7,13 @@ import Navbar from "./components/navbar/navbar.jsx";
 //Pages
 import Home from "./pages/home/home.jsx";
 import LoginSignUp from "./pages/loginSignUp/loginSignUp.jsx";
-import LandingPage from "./pages/landingPage/landingPage.jsx";
 import RegisterAparment from "./pages/apartment/register/apRegister.jsx";
 import SearchApartment from "./pages/apartment/search/apSearch.jsx";
 import DeleteApartment from "./pages/apartment/delete/apDelete.jsx";
 import UpdateApartment from "./pages/apartment/update/apUpdate.jsx";
 import RegisterTenant from "./pages/tenant/register/tenantRegister.jsx";
 import SearchTenant from "./pages/tenant/search/tenantSearch.jsx";
+import DeleteTenant from "./pages/tenant/delete/tenantDelete.jsx";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -64,13 +64,10 @@ function App() {
               />
               <Route
                 path="/tenant/register"
-                render={() => <RegisterTenant token={token} />}
+                render={() => <RegisterTenant />}
               />
-              <Route
-                path="/tenant/search"
-                render={() => <SearchTenant token={token} />}
-              />
-              <Redirect path="/" to="/home" />
+              <Route path="/tenant/search" render={() => <SearchTenant />} />
+              <Route path="/tenant/delete" render={() => <DeleteTenant />} />
             </>
           )}
         </Switch>

@@ -56,6 +56,7 @@ type Mutation {
     apartmentIds: [String!]!
   ): Tenant
   deleteTenant(id: ID!): Tenant
+  deleteTenantByCpf(tenantCpf: String!): Tenant
   updateTenant(
     id: ID!
     name: String!
