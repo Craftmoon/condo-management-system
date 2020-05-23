@@ -16,10 +16,6 @@ const TenantCard = ({ tenant }) => {
         <div>Data de nascimento: {tenant.dateOfBirth}</div>
         <div>Número de telefone: {tenant.phone}</div>
         <div>CPF: {tenant.cpf}</div>
-        <div>Vinculado aos apartamentos:</div>
-        <div>{tenant.apartmentIds}</div>
-        <div>Representante dos apartamentos: </div>
-        <div>{tenant.block}</div>
       </div>
     </div>
   );
