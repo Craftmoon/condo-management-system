@@ -2,52 +2,28 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../../utils/ErrorMessage";
 import notify from "../../../utils/toast";
+import { ApartmentService } from "../../../services/ApartmentService";
 
-const DeleteApartment = ({ token }) => {
+const DeleteApartment = () => {
   const { register, handleSubmit, errors, reset } = useForm();
-  const onSubmit = ({ apNumber, apBlock }) => {
-    const requestBody = {
-      query: `
-          mutation{
-            deleteApartmentByNumberBlock(number:"${apNumber}",block:"${apBlock}"){
-              number
-              block
-            }
-          }
-        `,
-    };
 
-    fetch("http://localhost:4000", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed.");
-        }
-        return res.json();
-      })
-      .then(({ data, errors }) => {
-        console.log("errors", errors);
-        if (errors != undefined) notify(errors[0].message, "error");
-        else {
-          notify(
-            `Apartamento número ${apNumber}, bloco ${apBlock} removido com sucesso`,
-            "success"
-          );
-          reset({
-            apNumber: "",
-            apBlock: "",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+  const onSubmit = ({ apNumber, apBlock }) => {
+    ApartmentService.deleteApartmentByNumberBlock({
+      apNumber,
+      apBlock,
+    }).then(({ errors }) => {
+      if (errors != undefined) notify(errors[0].message, "error");
+      else {
+        notify(
+          `Apartamento número ${apNumber}, bloco ${apBlock} removido com sucesso`,
+          "success"
+        );
+        reset({
+          apNumber: "",
+          apBlock: "",
+        });
+      }
+    });
   };
 
   return (

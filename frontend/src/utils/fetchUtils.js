@@ -1,4 +1,6 @@
-export default function (requestBody, token) {
+const token = window.localStorage.getItem("token");
+
+export default function (requestBody) {
   return {
     method: "POST",
     body: JSON.stringify(requestBody),

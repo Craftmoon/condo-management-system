@@ -1,21 +1,23 @@
-const Tenant = require("../models/Tenant"),
-  tenantService = require("../service/tenant");
+const Tenant = require("../models/Tenant");
+const tenantService = require("../service/tenant");
+const Apartment = require("../models/Apartment");
 
 module.exports = {
   Query: {
     tenants: () => Tenant.find(),
     tenant: (_, { id }) => Tenant.findById(id),
 
-    tenantByApartment: (_, { apartmentNumber, apartmentBlock }) => {
-      const ap = Apartment.findOne({ number, block });
+    tenantByApartment: async (_, { apNumber, apBlock }) => {
+      const ap = await Apartment.findOne({ number: apNumber, block: apBlock });
       if (ap === null || ap === undefined) return null;
       if (ap.tenantIds.length === 0) return null;
+
       if (ap.tenantIds.length > 0) {
         let tenants = [];
         for (let i = 0; i < ap.tenantIds.length; i++) {
-          tenants.push(Tenant.findById(ap.tenantIds[i]));
+          tenants.push(await Tenant.findById(ap.tenantIds[i]));
         }
-        console.log("array tenants by apartment", tenants);
+        return tenants;
       }
     },
 

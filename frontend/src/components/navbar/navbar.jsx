@@ -30,25 +30,39 @@ const Navbar = ({ token, deleteToken }) => {
           {token && (
             <Fragment>
               <div className="navbar-item has-dropdown is-hoverable">
-                <a className="navbar-link">Apartamento</a>
-
-                <div className="navbar-dropdown">
-                  <NavLink to="/register/apartment" className="navbar-item">
-                    Cadastrar Apartamento
-                  </NavLink>
-                  <a className="navbar-item">Pesquisar Apartamento</a>
-                  <a className="navbar-item">Atualizar Apartamento</a>
-                  <a className="navbar-item">Remover Apartamento</a>
-                </div>
-              </div>
-              <div className="navbar-item has-dropdown is-hoverable">
                 <a className="navbar-link">Morador</a>
 
                 <div className="navbar-dropdown">
-                  <a className="navbar-item">Cadastrar Morador</a>
-                  <a className="navbar-item">Pesquisar Morador</a>
-                  <a className="navbar-item">Atualizar Morador</a>
-                  <a className="navbar-item">Remover Morador</a>
+                  <NavLink to="/tenant/register" className="navbar-item">
+                    Cadastrar Morador
+                  </NavLink>
+                  <NavLink to="/tenant/search" className="navbar-item">
+                    Pesquisar Morador
+                  </NavLink>
+                  <NavLink to="/tenant/update" className="navbar-item">
+                    Atualizar Morador
+                  </NavLink>
+                  <NavLink to="/tenant/delete" className="navbar-item">
+                    Remover Morador
+                  </NavLink>
+                </div>
+              </div>
+              <div className="navbar-item has-dropdown is-hoverable">
+                <a className="navbar-link">Apartamento</a>
+
+                <div className="navbar-dropdown">
+                  <NavLink to="/apartment/register" className="navbar-item">
+                    Cadastrar Apartamento
+                  </NavLink>
+                  <NavLink to="/apartment/search" className="navbar-item">
+                    Pesquisar Apartamento
+                  </NavLink>
+                  <NavLink to="/apartment/update" className="navbar-item">
+                    Atualizar Apartamento
+                  </NavLink>
+                  <NavLink to="/apartment/delete" className="navbar-item">
+                    Remover Apartamento
+                  </NavLink>
                 </div>
               </div>
             </Fragment>

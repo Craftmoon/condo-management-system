@@ -3,23 +3,16 @@ import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
 
+const configObj = {
+  position: "bottom-right",
+  autoClose: 5000,
+  hideProgressBar: true,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+};
+
 export default function (toastString, type) {
-  if (type === "error")
-    toast.error(toastString, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-  else
-    toast.success(toastString, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+  if (type === "error") toast.error(toastString, configObj);
+  else toast.success(toastString, configObj);
 }

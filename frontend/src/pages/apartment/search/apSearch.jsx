@@ -1,85 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../../utils/ErrorMessage";
-import fetchBody from "../../../utils/fetchUtils";
 import notify from "../../../utils/toast";
-import Card from "../../../components/card/card.jsx";
+import ApCard from "../../../components/apCard/apCard.jsx";
+import { ApartmentService } from "../../../services/ApartmentService";
 
-const SearchApartment = ({ token }) => {
+const SearchApartment = () => {
   const [searchType, setSearchType] = useState("one");
   const [apartments, setApartments] = useState([]);
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = ({ apNumber, apBlock }) => {
-    const requestBody = {
-      query: `
-          query{
-            apartmentByNumberBlock(number:"${apNumber}",block:"${apBlock}"){
-              id
-              number
-              block
-            }
-          }
-        `,
-    };
-
-    fetch("http://localhost:4000", fetchBody(requestBody, token))
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed.");
-        }
-        return res.json();
-      })
-      .then(({ data, errors }) => {
-        if (data.apartmentByNumberBlock == null)
-          notify("Apartamento não cadastrado", "error");
-
-        setApartments([data.apartmentByNumberBlock]);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+    ApartmentService.findApartmentByNumberBlock({
+      apNumber,
+      apBlock,
+    }).then(({ data }) => {
+      data.apartmentByNumberBlock == null
+        ? notify("Apartamento não cadastrado", "error")
+        : setApartments([data.apartmentByNumberBlock]);
+    });
   };
 
   const fetchAll = () => {
-    const requestBody = {
-      query: `
-          query{
-            apartments{
-              id
-              number
-              block
-            }
-          }
-        `,
-    };
-
-    fetch("http://localhost:4000", fetchBody(requestBody, token))
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed.");
-        }
-        return res.json();
-      })
-      .then(({ data, errors }) => {
-        if (!data.apartments[0]) notify(errors[0].message, "error");
-
-        setApartments(data.apartments);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+    ApartmentService.fetchAllApartments().then(({ data, errors }) => {
+      if (!data.apartments[0]) notify(errors[0].message, "error");
+      setApartments(data.apartments);
+    });
   };
 
   const mountCards = (apartments) => {
     const apCards = apartments.map((apartment) => {
       return (
-        <Card apartment={apartment} key={apartment.number + apartment.block} />
+        <ApCard
+          apartment={apartment}
+          key={apartment.number + apartment.block}
+        />
       );
     });
-
     const cardsContainer = <div className="cards-container">{apCards}</div>;
-
     return cardsContainer;
   };
 

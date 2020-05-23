@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../../utils/ErrorMessage";
 import TagList from "../../../components/tagList/tagList.jsx";
-import LinkApModal from "../linkApModal/linkApModal.jsx";
+import LinkApModal from "./linkApModal/linkApModal.jsx";
 import notify from "../../../utils/toast";
+import { TenantService } from "../../../services/TenantService";
 
 const RegisterTenant = ({ token }) => {
   const [linkedApArray, setLinkedApArray] = useState([]);
@@ -19,7 +20,6 @@ const RegisterTenant = ({ token }) => {
 
   const mountIdOnlyArray = () => {
     const apIdArray = linkedApArray.map((ap) => `"${ap.id}"`);
-    console.log("apIdArray", apIdArray);
     return apIdArray;
   };
 
@@ -32,58 +32,33 @@ const RegisterTenant = ({ token }) => {
     tenantPhone,
     tenantCpf,
   }) => {
-    const requestBody = {
-      query: `
-          mutation{
-            createTenant(name:"${tenantName}",email:"${tenantEmail}",dateOfBirth:"${tenantDateOfBirth}",phone:"${tenantPhone}",cpf:"${tenantCpf}",apartmentIds:[${mountIdOnlyArray()}]){
-              id
-              name
-              email
-              dateOfBirth
-              phone
-              cpf
-              apartmentIds
-            }
-          }
-        `,
-    };
+    const apartmentIds = mountIdOnlyArray();
 
-    console.log("requestBody", requestBody);
-    fetch("http://localhost:4000", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed.");
-        }
-        return res.json();
-      })
-      .then(({ data, errors }) => {
-        if (data.createTenant == null) notify(errors[0].message, "error");
-        else {
-          notify(
-            `Morador ${data.createTenant.name} foi cadastrado com sucesso`,
-            "success"
-          );
-          reset({
-            tenantName: "",
-            tenantEmail: "",
-            tenantDateOfBirth: "",
-            tenantPhone: "",
-            tenantCpf: "",
-            linkedApArray: "",
-          });
-          setLinkedApArray([]);
-        }
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+    TenantService.createTenant({
+      tenantName,
+      tenantEmail,
+      tenantDateOfBirth,
+      tenantPhone,
+      tenantCpf,
+      apartmentIds,
+    }).then(({ data, errors }) => {
+      if (data.createTenant == null) notify(errors[0].message, "error");
+      else {
+        notify(
+          `Morador ${data.createTenant.name} foi cadastrado com sucesso`,
+          "success"
+        );
+        reset({
+          tenantName: "",
+          tenantEmail: "",
+          tenantDateOfBirth: "",
+          tenantPhone: "",
+          tenantCpf: "",
+          linkedApArray: "",
+        });
+        setLinkedApArray([]);
+      }
+    });
   };
 
   return (

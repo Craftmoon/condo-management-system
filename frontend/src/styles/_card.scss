@@ -1,4 +1,4 @@
-.apartment-card {
+.card {
   margin: 10px 10px 10px 0px;
   display: flex;
   flex-direction: column;
@@ -6,6 +6,7 @@
   border: 1px solid $superLightGray;
   flex-direction: row;
   height: 73px;
+  font-family: monospace;
 
   &.box {
     padding: 10px 10px 3px 10px;
@@ -19,6 +20,10 @@
   .card-content {
     display: flex;
     flex-direction: column;
+  }
+
+  &.tenant-card {
+    height: fit-content;
   }
 }
 

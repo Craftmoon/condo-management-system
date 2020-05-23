@@ -3,13 +3,12 @@ import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../../../utils/ErrorMessage";
 import notify from "../../../../utils/toast";
-import fetchBody from "../../../../utils/fetchUtils";
+import { ApartmentService } from "../../../../services/ApartmentService";
 
 Modal.setAppElement("#root");
 
 const UpdateInfoModal = ({
   apartment,
-  token,
   showModal,
   setShowModal,
   resetPreviousForm,
@@ -24,58 +23,28 @@ const UpdateInfoModal = ({
   };
 
   const onSubmit = ({ apNumber, apBlock }) => {
-    console.log("apartment", apartment);
-    const requestBody = {
-      query: `
-            mutation{
-                updateApartment(id:"${
-                  apartment.id
-                }",number:"${apNumber}",block:"${apBlock}", tenantIds:[${mountTenantIds()}], representativeTenantId:"${
-        apartment.representativeTenantId
-      }"){
-                id
-                number
-                block
-              }
-            }
-          `,
-    };
+    const apId = apartment.id;
+    const representativeTenantId = apartment.representativeTenantId;
+    const tenantIds = mountTenantIds();
 
-    console.log("requestBody", requestBody);
-
-    fetch("http://localhost:4000", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
+    ApartmentService.updateApartment({
+      apId,
+      apNumber,
+      apBlock,
+      tenantIds,
+      representativeTenantId,
+    }).then(({ errors }) => {
+      if (errors != undefined) notify(errors[0].message, "error");
+      else {
+        notify("Apartamento atualizado com sucesso", "success");
+        reset({
+          apNumber: "",
+          apBlock: "",
+        });
+        resetPreviousForm({ apNumber: "", apBlock: "" });
+        setShowModal(false);
+      }
     });
-    fetch("http://localhost:4000", fetchBody(requestBody, token))
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed.");
-        }
-        return res.json();
-      })
-      .then(({ data, errors }) => {
-        if (errors != undefined) notify(errors[0].message, "error");
-        else {
-          notify("Apartamento atualizado com sucesso", "success");
-          reset({
-            apNumber: "",
-            apBlock: "",
-          });
-          resetPreviousForm({ apNumber: "", apBlock: "" });
-          setShowModal(false);
-        }
-
-        console.log("data", data);
-        console.log("error", errors);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
   };
 
   return (
@@ -107,7 +76,6 @@ const UpdateInfoModal = ({
                 <ErrorMessage error={errors.apNumber} />
               </div>
             </div>
-
             <div className="field">
               <label className="label">Bloco atualizado</label>
               <div className="control">
@@ -124,7 +92,6 @@ const UpdateInfoModal = ({
                 <ErrorMessage error={errors.apBlock} />
               </div>
             </div>
-
             <div className="field is-grouped">
               <div className="control">
                 <button type="submit" className="button is-success">

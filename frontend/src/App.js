@@ -1,6 +1,5 @@
-import React, { Fragment } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-//import { useSelector, useDispatch } from "react-redux";
 
 //Components
 import Navbar from "./components/navbar/navbar.jsx";
@@ -13,81 +12,70 @@ import RegisterAparment from "./pages/apartment/register/apRegister.jsx";
 import SearchApartment from "./pages/apartment/search/apSearch.jsx";
 import DeleteApartment from "./pages/apartment/delete/apDelete.jsx";
 import UpdateApartment from "./pages/apartment/update/apUpdate.jsx";
-
 import RegisterTenant from "./pages/tenant/register/tenantRegister.jsx";
+import SearchTenant from "./pages/tenant/search/tenantSearch.jsx";
 
 function App() {
-  const storeToken = (token, operatorId) => {
-    window.localStorage.setItem("token", token);
-    // dispatch({
-    //   type: "UPDATE_AUTH_INFO",
-    //   token: token,
-    //   operatorId: operatorId,
-    // });
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  const storeToken = (tok, operatorId) => {
+    window.localStorage.setItem("token", tok);
+    setToken(tok);
   };
 
   const deleteToken = () => {
     localStorage.removeItem("token");
-    // dispatch({
-    //   type: "UPDATE_AUTH_INFO",
-    //   token: null,
-    //   operatorId: null,
-    // });
+    setToken(false);
   };
 
-  // const dispatch = useDispatch();
-  // const token = useSelector((state) => state.token);
-  const token = localStorage.getItem("token");
-
   return (
-    <Fragment>
+    <>
       <BrowserRouter>
-        <Navbar token={token} deleteToken={deleteToken} />
         <Switch>
-          {!token && <Route path="/" component={LandingPage} exact />}
           {!token && (
-            <Route
-              path="/login"
-              render={() => <LoginSignUp storeToken={storeToken} />}
-            />
+            <>
+              <Route
+                path="/login"
+                render={() => <LoginSignUp storeToken={storeToken} />}
+              />
+              <Redirect path="/" to="/login" />
+            </>
           )}
-          {token && <Route path="/home" component={Home} />}
 
           {token && (
-            <Route
-              path="/apartment/register"
-              render={() => <RegisterAparment token={token} />}
-            />
+            <>
+              <Navbar token={token} deleteToken={deleteToken} />
+              <Route path="/home" component={Home} />
+              <Route
+                path="/apartment/register"
+                render={() => <RegisterAparment />}
+              />
+              <Route
+                path="/apartment/search"
+                render={() => <SearchApartment />}
+              />
+              <Route
+                path="/apartment/update"
+                render={() => <UpdateApartment />}
+              />
+              <Route
+                path="/apartment/delete"
+                render={() => <DeleteApartment />}
+              />
+              <Route
+                path="/tenant/register"
+                render={() => <RegisterTenant token={token} />}
+              />
+              <Route
+                path="/tenant/search"
+                render={() => <SearchTenant token={token} />}
+              />
+              <Redirect path="/" to="/home" />
+            </>
           )}
-          {token && (
-            <Route
-              path="/apartment/search"
-              render={() => <SearchApartment token={token} />}
-            />
-          )}
-          {token && (
-            <Route
-              path="/apartment/update"
-              render={() => <UpdateApartment token={token} />}
-            />
-          )}
-          {token && (
-            <Route
-              path="/apartment/delete"
-              render={() => <DeleteApartment token={token} />}
-            />
-          )}
-          {token && (
-            <Route
-              path="/tenant/register"
-              render={() => <RegisterTenant token={token} />}
-            />
-          )}
-          {!token && <Redirect path="/" to="/" />}
-          {token && <Redirect path="/" to="/home" />}
         </Switch>
       </BrowserRouter>
-    </Fragment>
+    </>
   );
 }
 

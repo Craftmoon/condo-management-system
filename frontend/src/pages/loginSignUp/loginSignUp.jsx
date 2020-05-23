@@ -3,57 +3,30 @@ import { ReactComponent as KiperLogo } from "../../assets/images/logo_kiper.svg"
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../utils/ErrorMessage";
 import notify from "../../utils/toast";
+import { OperatorService } from "../../services/OperatorService";
 
 const LoginSignUp = ({ storeToken }) => {
   const [isSignUpPage, setisSignUpPage] = useState(false);
-
   const { register, handleSubmit, errors } = useForm();
+
   const onSubmit = ({ username, password }) => {
-    let requestBody = {
-      query: `
-        query{
-          login(username:"${username}", password:"${password}"){
-            operatorId
-            token
-            tokenExpiration
-          }
-        }
-      `,
-    };
-
     if (isSignUpPage) {
-      requestBody = {
-        query: `
-          mutation{
-            createOperator(username:"${username}",password:"${password}"){
-              id
-              username
-            }
+      OperatorService.createOperator({ username, password }).then(
+        ({ data, errors }) => {
+          if (errors != undefined) notify(errors[0].message, "error");
+          else {
+            notify("Operador cadastrado com sucesso", "success");
           }
-        `,
-      };
-    }
-
-    fetch("http://localhost:4000", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed.");
         }
-        return res.json();
-      })
-      .then(({ data, errors }) => {
+      );
+    } else {
+      OperatorService.login({ username, password }).then(({ data, errors }) => {
         if (errors != undefined) notify(errors[0].message, "error");
-        else storeToken(data.login.token, data.login.operatorId);
-      })
-      .catch((err) => {
-        console.log(err);
+        else {
+          storeToken(data.login.token, data.login.operatorId);
+        }
       });
+    }
   };
 
   return (

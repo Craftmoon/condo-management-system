@@ -2,49 +2,29 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../../utils/ErrorMessage";
 import notify from "../../../utils/toast";
-import fetchBody from "../../../utils/fetchUtils";
 import UpdateInfoModal from "./updateInfoModal/updateInfoModal.jsx";
+import { ApartmentService } from "../../../services/ApartmentService";
 
-const UpdateApartment = ({ token }) => {
+const UpdateApartment = () => {
   const [apartment, setApartment] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   const { register, handleSubmit, errors, reset } = useForm();
 
   const onSubmit = ({ apNumber, apBlock }) => {
-    const requestBody = {
-      query: `
-          query{
-            apartmentByNumberBlock(number:"${apNumber}",block:"${apBlock}"){
-              id
-              number
-              block
-              tenantIds
-              representativeTenantId
-            }
-          }
-        `,
-    };
-
-    fetch("http://localhost:4000", fetchBody(requestBody, token))
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed.");
-        }
-        return res.json();
-      })
-      .then(({ data, errors }) => {
+    ApartmentService.findApartmentByNumberBlock({ apNumber, apBlock }).then(
+      ({ data }) => {
         if (data.apartmentByNumberBlock == null)
           notify("Apartamento não cadastrado", "error");
         else {
+          console.log("data", data);
           setApartment(data.apartmentByNumberBlock);
           setShowModal(true);
         }
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+      }
+    );
   };
+
   return (
     <section className="section">
       <div className="container">
@@ -100,7 +80,6 @@ const UpdateApartment = ({ token }) => {
           apartment={apartment}
           showModal={showModal}
           setShowModal={setShowModal}
-          token={token}
           resetPreviousForm={reset}
         />
       </div>

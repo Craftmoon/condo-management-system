@@ -1,10 +1,10 @@
 import React from "react";
 import Modal from "react-modal";
-import TagList from "../../../components/tagList/tagList.jsx";
+import TagList from "../../../../components/tagList/tagList.jsx";
 import { useForm } from "react-hook-form";
-import ErrorMessage from "../../../utils/ErrorMessage";
-import notify from "../../../utils/toast";
-import fetchBody from "../../../utils/fetchUtils";
+import ErrorMessage from "../../../../utils/ErrorMessage";
+import notify from "../../../../utils/toast";
+import { ApartmentService } from "../../../../services/ApartmentService";
 
 Modal.setAppElement("#root");
 
@@ -14,7 +14,6 @@ const LinkApModal = ({
   linkedApArray,
   setLinkedApArray,
   unlinkAp,
-  token,
 }) => {
   const { register, handleSubmit, errors, reset } = useForm();
 
@@ -23,46 +22,16 @@ const LinkApModal = ({
       return apToBeLinkedId === ap.id;
     });
 
-    console.log("list", list);
-
     if (list.length > 0) return true;
     else return false;
   };
 
   const onSubmit = ({ apNumber, apBlock }) => {
-    const requestBody = {
-      query: `
-            query{
-              apartmentByNumberBlock(number:"${apNumber}",block:"${apBlock}"){
-                id
-                number
-                block
-              }
-            }
-          `,
-    };
-
-    fetch("http://localhost:4000", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
-    fetch("http://localhost:4000", fetchBody(requestBody, token))
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed.");
-        }
-        return res.json();
-      })
-      .then(({ data, errors }) => {
+    ApartmentService.findApartmentByNumberBlock({ apNumber, apBlock }).then(
+      ({ data }) => {
         if (data.apartmentByNumberBlock == null)
           notify("Apartamento não cadastrado", "error");
         else {
-          console.log("entrou no else");
-          console.log("verifyDuplicateApLink()", verifyDuplicateApLink());
           if (verifyDuplicateApLink(data.apartmentByNumberBlock.id))
             notify("Apartamento já inserido", "error");
           else {
@@ -73,10 +42,8 @@ const LinkApModal = ({
             });
           }
         }
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+      }
+    );
   };
 
   return (

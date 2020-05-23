@@ -1,8 +1,8 @@
 import React from "react";
 
-const Card = ({ apartment }) => {
+const ApCard = ({ apartment }) => {
   return (
-    <div className="apartment-card box">
+    <div className="card box">
       <div className="card-icon">
         <div className="icon is-large">
           <span className="fa-stack fa-2x">
@@ -18,4 +18,4 @@ const Card = ({ apartment }) => {
   );
 };
 
-export default Card;
+export default ApCard;
