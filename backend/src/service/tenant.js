@@ -45,7 +45,44 @@ module.exports = {
         });
       }
     }
-
     return tenant;
+  },
+  tenantByApartment: async (apNumber, apBlock) => {
+    // Busca o(s) morador(es) pelo numero e bloco de apartamento
+
+    // Busca o apartamento
+    const ap = await Apartment.findOne({ number: apNumber, block: apBlock });
+
+    // Se não achar nenhum retorna null
+    if (ap === null || ap === undefined) return null;
+    if (ap.tenantIds.length === 0) return null;
+
+    // Se achar algum, busca e retorna os moradores
+    if (ap.tenantIds.length > 0) {
+      let tenants = [];
+      for (let i = 0; i < ap.tenantIds.length; i++) {
+        tenants.push(await Tenant.findById(ap.tenantIds[i]));
+      }
+      return tenants;
+    }
+  },
+
+  updateTenant: async (
+    id,
+    name,
+    email,
+    dateOfBirth,
+    phone,
+    cpf,
+    apartmentIds
+  ) => {
+    return await Tenant.findByIdAndUpdate(id, {
+      name,
+      email,
+      dateOfBirth,
+      phone,
+      cpf,
+      apartmentIds,
+    });
   },
 };

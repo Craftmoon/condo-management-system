@@ -80,6 +80,30 @@ class TenantService {
       });
   };
 
+  tenantByCpf = ({ tenantCpf }) => {
+    const requestBody = {
+      query: `
+          query{
+            tenantByCpf(tenantCpf:"${tenantCpf}"){
+                id
+                name
+                email
+                dateOfBirth
+                phone
+                cpf
+                apartmentIds
+            }
+          }
+        `,
+    };
+
+    return fetch("http://localhost:4000", fetchBody(requestBody))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
+
   deleteByCpf = ({ tenantCpf }) => {
     const requestBody = {
       query: `
@@ -87,6 +111,38 @@ class TenantService {
             deleteTenantByCpf(tenantCpf:"${tenantCpf}"){
                 id
                 name
+                apartmentIds
+            }
+          }
+        `,
+    };
+
+    return fetch("http://localhost:4000", fetchBody(requestBody))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
+
+  updateTenant = ({
+    tenantId,
+    tenantName,
+    tenantEmail,
+    tenantDateOfBirth,
+    tenantPhone,
+    tenantCpf,
+    apartmentIds,
+  }) => {
+    const requestBody = {
+      query: `
+          mutation{
+            updateTenant(id:"${tenantId}",name:"${tenantName}",email:"${tenantEmail}",dateOfBirth:"${tenantDateOfBirth}",phone:"${tenantPhone}",cpf:"${tenantCpf}",apartmentIds:[${apartmentIds}]){
+                id
+                name
+                email
+                dateOfBirth
+                phone
+                cpf
                 apartmentIds
             }
           }

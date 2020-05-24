@@ -38,6 +38,7 @@ type Query {
   tenant(id: ID!): Tenant
   tenantByAny(searchString: String!): [Tenant!]!
   tenantByApartment(apNumber: String!, apBlock: String!): [Tenant]
+  tenantByCpf(tenantCpf: String!): Tenant
 
   apartments: [Apartment!]!
   apartment(id: ID!): Apartment

@@ -1,5 +1,5 @@
 const Tenant = require("../models/Tenant");
-const tenantService = require("../service/tenant");
+const TenantService = require("../service/tenant");
 const Apartment = require("../models/Apartment");
 
 module.exports = {
@@ -7,18 +7,11 @@ module.exports = {
     tenants: () => Tenant.find(),
     tenant: (_, { id }) => Tenant.findById(id),
 
-    tenantByApartment: async (_, { apNumber, apBlock }) => {
-      const ap = await Apartment.findOne({ number: apNumber, block: apBlock });
-      if (ap === null || ap === undefined) return null;
-      if (ap.tenantIds.length === 0) return null;
-
-      if (ap.tenantIds.length > 0) {
-        let tenants = [];
-        for (let i = 0; i < ap.tenantIds.length; i++) {
-          tenants.push(await Tenant.findById(ap.tenantIds[i]));
-        }
-        return tenants;
-      }
+    tenantByApartment: (_, { apNumber, apBlock }) => {
+      return TenantService.tenantByApartment(apNumber, apBlock);
+    },
+    tenantByCpf: async (_, { tenantCpf }, req) => {
+      return await Tenant.findOne({ cpf: tenantCpf });
     },
 
     tenantByAny: (_, { searchString }) =>
@@ -31,7 +24,7 @@ module.exports = {
       { name, email, dateOfBirth, phone, cpf, apartmentIds },
       req
     ) => {
-      return await tenantService.tenantRegister(
+      return await TenantService.tenantRegister(
         name,
         email,
         dateOfBirth,
@@ -46,19 +39,20 @@ module.exports = {
     deleteTenantByCpf: async (_, { tenantCpf }, req) => {
       return await Tenant.findOneAndDelete({ cpf: tenantCpf });
     },
-    updateTenant: async (
+    updateTenant: (
       _,
       { id, name, email, dateOfBirth, phone, cpf, apartmentIds },
       req
     ) => {
-      return await Tenant.findByIdAndUpdate(id, {
+      return TenantService.updateTenant(
+        id,
         name,
         email,
         dateOfBirth,
         phone,
         cpf,
-        apartmentIds,
-      });
+        apartmentIds
+      );
     },
   },
 };

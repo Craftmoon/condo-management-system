@@ -14,6 +14,7 @@ import UpdateApartment from "./pages/apartment/update/apUpdate.jsx";
 import RegisterTenant from "./pages/tenant/register/tenantRegister.jsx";
 import SearchTenant from "./pages/tenant/search/tenantSearch.jsx";
 import DeleteTenant from "./pages/tenant/delete/tenantDelete.jsx";
+import UpdateTenant from "./pages/tenant/update/tenantUpdate.jsx";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -68,6 +69,9 @@ function App() {
               />
               <Route path="/tenant/search" render={() => <SearchTenant />} />
               <Route path="/tenant/delete" render={() => <DeleteTenant />} />
+              <Route path="/tenant/update" render={() => <UpdateTenant />} />
+
+              <Redirect path="/login" to="/home" />
             </>
           )}
         </Switch>
