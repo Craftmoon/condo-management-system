@@ -10,6 +10,7 @@ const RegisterTenant = () => {
   const [linkedApArray, setLinkedApArray] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
+  // Desvincula aplicativo do morador
   const unlinkAp = (idToRemove) => {
     const newApArray = linkedApArray.filter((ap) => {
       return ap.id !== idToRemove;
@@ -18,6 +19,7 @@ const RegisterTenant = () => {
     setLinkedApArray(newApArray);
   };
 
+  // Monta um array só de ids em string pra ser usado nas requisições
   const mountIdOnlyArray = () => {
     const apIdArray = linkedApArray.map((ap) => `"${ap.id}"`);
     return apIdArray;

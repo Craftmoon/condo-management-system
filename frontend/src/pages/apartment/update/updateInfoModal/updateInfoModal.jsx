@@ -15,6 +15,7 @@ const UpdateInfoModal = ({
 }) => {
   const { register, handleSubmit, errors, reset } = useForm();
 
+  // Monta arrau de ids do morador pra usar na requisicao
   const mountTenantIds = () => {
     const tenantIdStringArray = apartment.tenantIds.map(
       (tenantId) => `"${tenantId}"`

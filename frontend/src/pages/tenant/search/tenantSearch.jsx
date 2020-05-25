@@ -19,6 +19,7 @@ const SearchTenant = () => {
     errors: errorsByInfo,
   } = useForm();
 
+  // Busca por ap
   const onSubmitByAp = ({ apNumber, apBlock }) => {
     TenantService.tenantByApartment({
       apNumber,
@@ -33,6 +34,7 @@ const SearchTenant = () => {
     });
   };
 
+  // Busca por info do morador
   const onSubmitByInfo = ({ searchString }) => {
     TenantService.tenantByAny({ searchString }).then(({ data }) => {
       setTenants([]);

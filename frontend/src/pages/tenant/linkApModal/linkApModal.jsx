@@ -17,6 +17,7 @@ const LinkApModal = ({
 }) => {
   const { register, handleSubmit, errors, reset } = useForm();
 
+  // Ve se o ap a ser vinculado já não está
   const verifyDuplicateApLink = (apToBeLinkedId) => {
     const list = linkedApArray.filter((ap) => {
       return apToBeLinkedId === ap.id;

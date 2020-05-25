@@ -21,6 +21,7 @@ const SearchApartment = () => {
     });
   };
 
+  // Busca todos aps
   const fetchAll = () => {
     ApartmentService.fetchAllApartments().then(({ data, errors }) => {
       if (data.apartments == null) notify(errors[0].message, "error");
@@ -28,6 +29,7 @@ const SearchApartment = () => {
     });
   };
 
+  // Monta o container com cards do ap
   const mountCards = (apartments) => {
     const apCards = apartments.map((apartment) => {
       return (

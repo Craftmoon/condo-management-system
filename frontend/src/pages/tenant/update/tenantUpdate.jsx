@@ -19,6 +19,7 @@ const UpdateTenant = () => {
   } = useForm();
   const { register, handleSubmit, errors, reset } = useForm();
 
+  // Desvincula aplicativo do morador
   const unlinkAp = (idToRemove) => {
     const newApArray = linkedApArray.filter((ap) => {
       return ap.id !== idToRemove;
@@ -27,11 +28,13 @@ const UpdateTenant = () => {
     setLinkedApArray(newApArray);
   };
 
+  // Monta um array só de ids em string pra ser usado nas requisições
   const mountIdOnlyArray = () => {
     const apIdArray = linkedApArray.map((ap) => `"${ap.id}"`);
     return apIdArray;
   };
 
+  // Busca e seta os apartamentos recebidos como vinculados ao morador sendo atualizado
   const updateTenantLinkedAp = async (idArray) => {
     const apes = await idArray.reduce(async (array, value) => {
       const collection = await array;
@@ -44,6 +47,7 @@ const UpdateTenant = () => {
     setLinkedApArray(apes);
   };
 
+  // Submit do formulario de busca de morador (só cpf)
   const onSubmitSearch = ({ tenantCpf }) => {
     TenantService.tenantByCpf({ tenantCpf }).then(({ data }) => {
       if (data.tenantByCpf == null)
@@ -58,7 +62,7 @@ const UpdateTenant = () => {
     });
   };
 
-  // Submit for the update form
+  // Submit do formulario de update
   const onSubmit = ({
     tenantName,
     tenantEmail,
@@ -93,6 +97,7 @@ const UpdateTenant = () => {
     });
   };
 
+  // Reseta info dos forms, seta morador null e aps vinculados vazio
   const resetUpdate = () => {
     reset({
       tenantName: "",
