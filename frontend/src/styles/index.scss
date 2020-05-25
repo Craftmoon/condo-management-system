@@ -44,6 +44,8 @@ a {
 }
 
 .page-panel {
+  background-image: url("../assets/images/home_background.jpg");
+  background-size: 100% 100%;
   height: 90vh;
   background-color: $darkerWhite;
   display: flex;
