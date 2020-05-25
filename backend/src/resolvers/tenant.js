@@ -6,25 +6,20 @@ module.exports = {
   Query: {
     tenants: () => Tenant.find(),
     tenant: (_, { id }) => Tenant.findById(id),
-
+    tenantByCpf: (_, { tenantCpf }) => Tenant.findOne({ cpf: tenantCpf }),
+    tenantByAny: (_, { searchString }) =>
+      Tenant.find({ $text: { $search: searchString } }),
     tenantByApartment: (_, { apNumber, apBlock }) => {
       return TenantService.tenantByApartment(apNumber, apBlock);
     },
-    tenantByCpf: async (_, { tenantCpf }, req) => {
-      return await Tenant.findOne({ cpf: tenantCpf });
-    },
-
-    tenantByAny: (_, { searchString }) =>
-      Tenant.find({ $text: { $search: searchString } }),
   },
 
   Mutation: {
-    createTenant: async (
+    createTenant: (
       _,
-      { name, email, dateOfBirth, phone, cpf, apartmentIds },
-      req
+      { name, email, dateOfBirth, phone, cpf, apartmentIds }
     ) => {
-      return await TenantService.tenantRegister(
+      return TenantService.tenantRegister(
         name,
         email,
         dateOfBirth,
@@ -33,16 +28,21 @@ module.exports = {
         apartmentIds
       );
     },
-    deleteTenant: async (_, { id }, req) => {
-      return await Tenant.findByIdAndRemove(id);
-    },
-    deleteTenantByCpf: async (_, { tenantCpf }, req) => {
-      return await Tenant.findOneAndDelete({ cpf: tenantCpf });
+    deleteTenantByCpf: (_, { tenantCpf }) => {
+      return TenantService.deleteTenantByCpf(tenantCpf);
     },
     updateTenant: (
       _,
-      { id, name, email, dateOfBirth, phone, cpf, apartmentIds },
-      req
+      {
+        id,
+        name,
+        email,
+        dateOfBirth,
+        phone,
+        cpf,
+        apartmentIds,
+        previousApartmentIds,
+      }
     ) => {
       return TenantService.updateTenant(
         id,
@@ -51,7 +51,8 @@ module.exports = {
         dateOfBirth,
         phone,
         cpf,
-        apartmentIds
+        apartmentIds,
+        previousApartmentIds
       );
     },
   },

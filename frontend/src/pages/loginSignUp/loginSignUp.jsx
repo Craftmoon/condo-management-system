@@ -12,10 +12,11 @@ const LoginSignUp = ({ storeToken }) => {
   const onSubmit = ({ username, password }) => {
     if (isSignUpPage) {
       OperatorService.createOperator({ username, password }).then(
-        ({ data, errors }) => {
+        ({ errors }) => {
           if (errors != undefined) notify(errors[0].message, "error");
           else {
             notify("Operador cadastrado com sucesso", "success");
+            setisSignUpPage(false);
           }
         }
       );

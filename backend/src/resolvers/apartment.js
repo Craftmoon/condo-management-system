@@ -1,5 +1,5 @@
 const Apartment = require("../models/Apartment"),
-  apartmentService = require("../service/apartment");
+  ApartmentService = require("../service/apartment");
 
 module.exports = {
   Query: {
@@ -10,64 +10,31 @@ module.exports = {
   },
 
   Mutation: {
-    createApartment: async (
+    createApartment: (
       _,
-      { number, block, tenantIds, representativeTenantId },
-      req
+      { number, block, tenantIds, representativeTenantId }
     ) => {
-      // Verifica regras de negócio
-      await Promise.all([
-        apartmentService.verifyIsApartmentNumberBlockRepeated(number, block),
-        // apartmentService.verifyIsRepresentativePresent(
-        //   tenantIds,
-        //   representativeTenantId
-        // ),
-      ]);
-      return await apartmentService.registerApartment(
+      return ApartmentService.registerApartment(
         number,
         block,
         tenantIds,
         representativeTenantId
       );
     },
-    deleteApartment: async (_, { id }, req) => {
-      await apartmentService.verifyTenantExistenceEligibility(id);
-
-      return await Apartment.findByIdAndDelete(id);
+    deleteApartmentByNumberBlock: (_, { number, block }, req) => {
+      return ApartmentService.deleteApartmentByNumberBlock(number, block);
     },
-    deleteApartmentByNumberBlock: async (_, { number, block }, req) => {
-      const ap = await Apartment.findOne({ number, block });
-
-      if (ap === null) throw new Error("Apartamento não encontrado.");
-
-      await apartmentService.verifyTenantExistenceEligibility(ap.id);
-
-      return await Apartment.findByIdAndDelete(ap.id);
-    },
-    updateApartment: async (
+    updateApartment: (
       _,
-      { id, number, block, tenantIds, representativeTenantId },
-      req
+      { id, number, block, tenantIds, representativeTenantId }
     ) => {
-      // Verifica regras de negócio
-      await Promise.all([
-        apartmentService.verifyIsApartmentNumberBlockRepeated(
-          number,
-          block,
-          id
-        ),
-        // apartmentService.verifyIsRepresentativePresent(
-        //   tenantIds,
-        //   representativeTenantId
-        // ),
-      ]);
-
-      return await Apartment.findByIdAndUpdate(id, {
+      return ApartmentService.updateApartment(
+        id,
         number,
         block,
         tenantIds,
-        representativeTenantId,
-      });
+        representativeTenantId
+      );
     },
   },
 };

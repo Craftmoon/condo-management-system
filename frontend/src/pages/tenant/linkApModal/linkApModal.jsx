@@ -1,10 +1,10 @@
 import React from "react";
 import Modal from "react-modal";
-import TagList from "../../../../components/tagList/tagList.jsx";
+import TagList from "../../../components/tagList/tagList.jsx";
 import { useForm } from "react-hook-form";
-import ErrorMessage from "../../../../utils/ErrorMessage";
-import notify from "../../../../utils/toast";
-import { ApartmentService } from "../../../../services/ApartmentService";
+import ErrorMessage from "../../../utils/ErrorMessage";
+import notify from "../../../utils/toast";
+import { ApartmentService } from "../../../services/ApartmentService";
 
 Modal.setAppElement("#root");
 

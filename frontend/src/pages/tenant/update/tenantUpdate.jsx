@@ -68,6 +68,9 @@ const UpdateTenant = () => {
   }) => {
     const apartmentIds = mountIdOnlyArray();
     const tenantId = tenant.id;
+    const previousApartmentIds = tenant.apartmentIds.map(
+      (apartmentId) => `"${apartmentId}"`
+    );
 
     TenantService.updateTenant({
       tenantId,
@@ -77,28 +80,33 @@ const UpdateTenant = () => {
       tenantPhone,
       tenantCpf,
       apartmentIds,
+      previousApartmentIds,
     }).then(({ data, errors }) => {
       if (data.updateTenant == null) notify(errors[0].message, "error");
       else {
         notify(
-          `As informações do morador ${data.updateTenant.name} foram atualizadas com sucesso`,
+          `As informações do antigo morador ${data.updateTenant.name} foram atualizadas com sucesso`,
           "success"
         );
-        reset({
-          tenantName: "",
-          tenantEmail: "",
-          tenantDateOfBirth: "",
-          tenantPhone: "",
-          tenantCpf: "",
-          linkedApArray: "",
-        });
-        resetSearch({
-          tenantCpf: "",
-        });
-        setTenant(null);
-        setLinkedApArray([]);
+        resetUpdate();
       }
     });
+  };
+
+  const resetUpdate = () => {
+    reset({
+      tenantName: "",
+      tenantEmail: "",
+      tenantDateOfBirth: "",
+      tenantPhone: "",
+      tenantCpf: "",
+      linkedApArray: "",
+    });
+    resetSearch({
+      tenantCpf: "",
+    });
+    setTenant(null);
+    setLinkedApArray([]);
   };
 
   return (
@@ -325,6 +333,18 @@ const UpdateTenant = () => {
                   }}
                 >
                   Vincular apartamento
+                </button>
+              </div>
+
+              <div className="control">
+                <button
+                  type="button"
+                  className="button is-danger"
+                  onClick={() => {
+                    resetUpdate();
+                  }}
+                >
+                  Cancelar
                 </button>
               </div>
             </div>

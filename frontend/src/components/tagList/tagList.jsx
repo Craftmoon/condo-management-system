@@ -8,7 +8,6 @@ const TagList = ({ title, apArray, deleteFunction }) => {
       {apArray.length === 0 ? <p style={{ color: "gray" }}>Vazio</p> : ""}
       <div className="tags-container">
         {apArray.map((ap) => {
-          console.log(ap);
           return (
             <div className="tags has-addons" key={ap.id}>
               <p className="tag is-link">{`Ap. nº${ap.number} bloco ${ap.block}`}</p>

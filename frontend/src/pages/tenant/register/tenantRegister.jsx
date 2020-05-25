@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../../utils/ErrorMessage";
 import TagList from "../../../components/tagList/tagList.jsx";
-import LinkApModal from "./linkApModal/linkApModal.jsx";
+import LinkApModal from "../linkApModal/linkApModal.jsx";
 import notify from "../../../utils/toast";
 import { TenantService } from "../../../services/TenantService";
 
-const RegisterTenant = ({ token }) => {
+const RegisterTenant = () => {
   const [linkedApArray, setLinkedApArray] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
@@ -241,9 +241,9 @@ const RegisterTenant = ({ token }) => {
         <LinkApModal
           showModal={showModal}
           setShowModal={setShowModal}
-          token={token}
           linkedApArray={linkedApArray}
           setLinkedApArray={setLinkedApArray}
+          unlinkAp={unlinkAp}
         />
       </div>
     </section>

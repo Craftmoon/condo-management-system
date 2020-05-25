@@ -132,11 +132,14 @@ class TenantService {
     tenantPhone,
     tenantCpf,
     apartmentIds,
+    previousApartmentIds,
   }) => {
     const requestBody = {
       query: `
           mutation{
-            updateTenant(id:"${tenantId}",name:"${tenantName}",email:"${tenantEmail}",dateOfBirth:"${tenantDateOfBirth}",phone:"${tenantPhone}",cpf:"${tenantCpf}",apartmentIds:[${apartmentIds}]){
+            updateTenant(id:"${tenantId}",
+            name:"${tenantName}",email:"${tenantEmail}",dateOfBirth:"${tenantDateOfBirth}",phone:"${tenantPhone}",cpf:"${tenantCpf}",
+            apartmentIds:[${apartmentIds}],previousApartmentIds:[${previousApartmentIds}]){
                 id
                 name
                 email
@@ -144,6 +147,7 @@ class TenantService {
                 phone
                 cpf
                 apartmentIds
+                
             }
           }
         `,

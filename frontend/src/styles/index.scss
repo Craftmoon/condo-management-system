@@ -1,19 +1,15 @@
 @import "bulma";
-
 @import "../../node_modules/bulma/sass/utilities/_all.sass";
-
-// the import below of everything from bulma is temporary
 @import "../../node_modules/bulma/bulma.sass";
 @import "../../node_modules/bulma-steps-component/bulma-steps.sass";
 
 @import "./variables";
 @import "./navbar";
 @import "./loginSignUp";
-@import "./sidebar";
 @import "./card";
 @import "./forms";
 @import "./modal";
-@import "./tags";
+@import "./apTags";
 
 body {
   margin: 0;

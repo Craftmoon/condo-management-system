@@ -10,6 +10,7 @@ class ApartmentService {
           number
           block
           tenantIds
+          representativeTenantId
           }
         }
         `,
@@ -36,7 +37,9 @@ class ApartmentService {
     };
 
     return fetch("http://localhost:4000", fetchBody(requestBody))
-      .then((res) => res.json())
+      .then((res) => {
+        return res.json();
+      })
       .catch((err) => {
         console.log("error", err);
       });

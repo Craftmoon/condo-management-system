@@ -66,6 +66,7 @@ type Mutation {
     phone: String!
     cpf: String!
     apartmentIds: [String!]!
+    previousApartmentIds: [String!]!
   ): Tenant
 
   createApartment(

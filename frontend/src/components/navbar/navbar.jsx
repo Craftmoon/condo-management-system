@@ -12,19 +12,8 @@ const Navbar = ({ token, deleteToken }) => {
         <p className="navbar-item is-size-4 ">Gestão de Condomínio</p>
       </div>
 
-      <a
-        role="button"
-        className="navbar-burger burger"
-        aria-label="menu"
-        aria-expanded="false"
-        data-target="mainNavBar"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
       <div id="mainNavBar" className="navbar-menu">
-        {/* <div className="navbar-start"></div> */}
+        <div className="navbar-start"></div>
 
         <div className="navbar-end">
           {token && (
@@ -92,14 +81,3 @@ const Navbar = ({ token, deleteToken }) => {
 };
 
 export default Navbar;
-
-// <header>
-//   <div>
-//     <KiperLogoSmall style={{ marginLeft: "40" }} /> Gestão de Condomínio
-//   </div>
-//   <div>
-//     <nav>
-//
-//     </nav>
-//   </div>
-// </header>

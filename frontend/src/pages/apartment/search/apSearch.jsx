@@ -23,7 +23,7 @@ const SearchApartment = () => {
 
   const fetchAll = () => {
     ApartmentService.fetchAllApartments().then(({ data, errors }) => {
-      if (!data.apartments[0]) notify(errors[0].message, "error");
+      if (data.apartments == null) notify(errors[0].message, "error");
       setApartments(data.apartments);
     });
   };

@@ -24,8 +24,9 @@ const SearchTenant = () => {
       apNumber,
       apBlock,
     }).then(({ data, errors }) => {
+      setTenants([]);
       if (data.tenantByApartment == null)
-        notify("Apartamento não cadastrado", "error");
+        notify("Nenhum morador encontrado.", "error");
       else {
         setTenants(data.tenantByApartment);
       }
@@ -34,6 +35,8 @@ const SearchTenant = () => {
 
   const onSubmitByInfo = ({ searchString }) => {
     TenantService.tenantByAny({ searchString }).then(({ data }) => {
+      setTenants([]);
+
       if (data.tenantByAny.length === 0)
         notify(
           "Morador não encontrado. Por favor, tente novamente com outra informação ou caso tenha inserido cpf, numero ou telefone, certifique-se de que não inseriu nada além de números (traços, parenteses, pontos, etc).",
@@ -44,7 +47,7 @@ const SearchTenant = () => {
   };
 
   // Recebe moradores e monta container com cards dos moradores
-  const mountCards = (tenants) => {
+  const mountCards = () => {
     const tenantCards = tenants.map((tenant) => {
       return <TenantCard tenant={tenant} key={tenant.id} />;
     });
@@ -161,7 +164,7 @@ const SearchTenant = () => {
             </div>
           </form>
         )}
-        {tenants[0] && mountCards(tenants)}
+        {tenants[0] && mountCards()}
       </div>
     </section>
   );

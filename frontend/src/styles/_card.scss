@@ -1,3 +1,8 @@
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .card {
   margin: 10px 10px 10px 0px;
   display: flex;
@@ -25,9 +30,4 @@
   &.tenant-card {
     height: fit-content;
   }
-}
-
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
 }
